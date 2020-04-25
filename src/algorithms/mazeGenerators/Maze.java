@@ -1,5 +1,7 @@
 package algorithms.mazeGenerators;
 
+import java.nio.ByteBuffer;
+
 public class Maze
 {
     private int rows;
@@ -66,4 +68,13 @@ public class Maze
             System.out.println();
         }
     }
+
+//    public byte[] toByteArray()
+//    {
+//
+////        ByteBuffer bb = ByteBuffer.allocate(4);
+////        bb.putInt(1000);
+////        bb.array();
+//    }
+
 }
