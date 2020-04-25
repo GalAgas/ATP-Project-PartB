@@ -1,5 +1,6 @@
 package algorithms.mazeGenerators;
 
+
 import java.nio.ByteBuffer;
 
 public class Maze
@@ -69,12 +70,72 @@ public class Maze
         }
     }
 
-//    public byte[] toByteArray()
-//    {
-//
-////        ByteBuffer bb = ByteBuffer.allocate(4);
-////        bb.putInt(1000);
-////        bb.array();
-//    }
+    public byte[] toByteArray()
+    {
+        byte[] bytesMaze = new byte[24+rows*cols];
+
+        //convert the number of rows from int to byte
+        byte[] bRows = fromIntToByte(rows);
+        bytesMaze[0] = bRows[0];
+        bytesMaze[1] = bRows[1];
+        bytesMaze[2] = bRows[2];
+        bytesMaze[3] = bRows[3];
+
+        //convert the number of cols from int to byte
+        byte[] bCols = fromIntToByte(cols);
+        bytesMaze[4] = bCols[0];
+        bytesMaze[5] = bCols[1];
+        bytesMaze[6] = bCols[2];
+        bytesMaze[7] = bCols[3];
+
+        //convert the row of start position from int to byte
+        byte[] startRow = fromIntToByte(startPosition.getRowIndex());
+        bytesMaze[8] = startRow[0];
+        bytesMaze[9] = startRow[1];
+        bytesMaze[10] = startRow[2];
+        bytesMaze[11] = startRow[3];
+
+        //convert the col of start position from int to byte
+        byte[] startCol = fromIntToByte(startPosition.getColumnIndex());
+        bytesMaze[12] = startCol[0];
+        bytesMaze[13] = startCol[1];
+        bytesMaze[14] = startCol[2];
+        bytesMaze[15] = startCol[3];
+
+
+        //convert the row of goal position from int to byte
+        byte[] goalRow = fromIntToByte(goalPosition.getRowIndex());
+        bytesMaze[16] = goalRow [0];
+        bytesMaze[17] = goalRow [1];
+        bytesMaze[18] = goalRow [2];
+        bytesMaze[19] = goalRow [3];
+
+        //convert the col of goal position from int to byte
+        byte[] goalCol = fromIntToByte(goalPosition.getColumnIndex());
+        bytesMaze[20] = goalCol[0];
+        bytesMaze[21] = goalCol[1];
+        bytesMaze[22] = goalCol[2];
+        bytesMaze[23] = goalCol[3];
+
+
+        //convert all the maze to bytes
+        int index = 24;
+        for (int i=0; i<rows; i++)
+        {
+            for (int j=0; j<cols; j++)
+            {
+                bytesMaze[index] = (byte) maze[i][j];
+                index++;
+            }
+        }
+        return bytesMaze;
+    }
+
+    private byte[] fromIntToByte(int num)
+    {
+        ByteBuffer bytes = ByteBuffer.allocate(4);
+        bytes.putInt(num);
+        return bytes.array();
+    }
 
 }

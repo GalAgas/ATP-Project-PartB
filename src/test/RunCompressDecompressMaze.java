@@ -13,21 +13,23 @@ import java.nio.ByteBuffer;
 public class RunCompressDecompressMaze {
     public static void main(String[] args) {
 
+        //test- toByteArray
+        Maze m = new MyMazeGenerator().generate(4,500);
+        m.print();
 
-        ByteBuffer bb = ByteBuffer.allocate(4);
-        bb.putInt(1000);
-        bb.array();
+        byte[] bm = m.toByteArray();
+
+        for (int i=0; i<bm.length; i++)
+        {
+            System.out.println(bm[i]);
+        }
 
 
 
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bb.array());
-        System.out.println(byteBuffer.getInt());
+//        ByteBuffer byteBuffer = ByteBuffer.wrap(bb.array());
+//        System.out.println(byteBuffer.getInt());
 
-//        int i = 255;
-//        byte x = (byte) i;
-//        System.out.println(x); // -22
-//        int i2 = x & 0xFF;
-//        System.out.println(i2); // 234
+
 
 
 
