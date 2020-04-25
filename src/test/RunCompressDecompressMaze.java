@@ -24,14 +24,18 @@ public class RunCompressDecompressMaze {
             System.out.println(bm[i]);
         }
 
-
-
-//        ByteBuffer byteBuffer = ByteBuffer.wrap(bb.array());
-//        System.out.println(byteBuffer.getInt());
-
-
-
-
+        //test- fromByteArrayToMaze
+        System.out.println("########");
+        Maze m2 = new Maze(bm);
+        m2.print();
+        System.out.println("********");
+        System.out.println(m2.getRows());
+        System.out.println("********");
+        System.out.println(m2.getCols());
+        System.out.println("********");
+        System.out.println(m2.getStartPosition());
+        System.out.println("********");
+        System.out.println(m2.getGoalPosition());
 
 //        String mazeFileName = "savedMaze.maze";
 //        AMazeGenerator mazeGenerator = new MyMazeGenerator();

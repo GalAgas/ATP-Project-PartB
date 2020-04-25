@@ -18,6 +18,39 @@ public class Maze
         maze = new int[rows][cols];
     }
 
+    public Maze(byte[] bytesMaze)
+    {
+        byte [] bm = new byte[4];
+        int [] res = new int[6];
+        int counter = 0;
+        int resIndex = 0;
+        for (int i=0; i<24; i++)
+        {
+            bm[counter] = bytesMaze[i];
+            counter++;
+            if (counter == 4)
+            {
+                res[resIndex] = fromByteToInt(bm);
+                resIndex++;
+                counter = 0;
+            }
+        }
+        rows = res[0];
+        cols = res[1];
+        setStartPosition(res[2], res[3]);
+        setGoalPosition(res[4], res[5]);
+        maze = new int[rows][cols];
+        int index = 24;
+        for (int i=0; i<rows; i++)
+        {
+            for (int j=0; j<cols; j++)
+            {
+                maze[i][j] = bytesMaze[index];
+                index++;
+            }
+        }
+    }
+
     public int[][] getMaze()
     {
         return maze;
@@ -102,7 +135,6 @@ public class Maze
         bytesMaze[14] = startCol[2];
         bytesMaze[15] = startCol[3];
 
-
         //convert the row of goal position from int to byte
         byte[] goalRow = fromIntToByte(goalPosition.getRowIndex());
         bytesMaze[16] = goalRow [0];
@@ -116,7 +148,6 @@ public class Maze
         bytesMaze[21] = goalCol[1];
         bytesMaze[22] = goalCol[2];
         bytesMaze[23] = goalCol[3];
-
 
         //convert all the maze to bytes
         int index = 24;
@@ -138,4 +169,9 @@ public class Maze
         return bytes.array();
     }
 
+    private int fromByteToInt(byte[] bm)
+    {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(bm);
+        return byteBuffer.getInt();
+    }
 }
