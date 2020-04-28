@@ -20,32 +20,22 @@ public class MyDecompressorInputStream extends InputStream {
     @Override
     public int read(byte[] b) throws IOException {
         //read from input stream
-        int len = ((b.length-24)/8)+24;
+        int len = ((int) Math.ceil((b.length-24) / 32.0))*4+24;
         byte[] comp = new byte[len];
         in.read(comp);
         in.close();
-
-        byte[] row = new byte[4];
-        byte[] col = new byte[4];
 
         //copy the first 24 cells to b
         for (int i=0; i<24; i++)
         {
             b[i] = comp[i];
-            if (i>=0 && i<=3)
-                row[i] = comp[i]; //number of rows in byte
-            if (i>=4 && i<=7)
-                col[i] = comp[i]; ////number of cols in byte
         }
-
-        int rows = fromByteToInt(row); //number of rows
-        int cols = fromByteToInt(col); //number of cols
 
         //4 cells represents byte --> int --> binary
         byte[] temp = new byte[4];
         int resInt;
         String resStr;
-        for (int i=24; i<((rows*cols)+24); i=i+4)
+        for (int i=24; i<comp.length; i=i+4)
         {
             temp[0] = comp[i];
             temp[1] = comp[i+1];
@@ -78,16 +68,6 @@ public class MyDecompressorInputStream extends InputStream {
             int digit = num % 2;
             num = num / 2;
             str = digit + str;
-        }
-        //add 0's to complete to 32
-        if (str.length() < 32)
-        {
-            String zero = "";
-            for (int i=0; i<(32-str.length()); i++)
-            {
-                zero = "0" + zero;
-            }
-            str = zero + str;
         }
         return str;
     }
