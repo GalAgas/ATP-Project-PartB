@@ -106,60 +106,43 @@ public class Maze
     public byte[] toByteArray()
     {
         byte[] bytesMaze = new byte[24+rows*cols];
+        int index=0;
 
-        //convert the number of rows from int to byte
-        byte[] bRows = fromIntToByte(rows);
-        bytesMaze[0] = bRows[0];
-        bytesMaze[1] = bRows[1];
-        bytesMaze[2] = bRows[2];
-        bytesMaze[3] = bRows[3];
+        convert4(bytesMaze, rows, index);
+        index+=4;
 
-        //convert the number of cols from int to byte
-        byte[] bCols = fromIntToByte(cols);
-        bytesMaze[4] = bCols[0];
-        bytesMaze[5] = bCols[1];
-        bytesMaze[6] = bCols[2];
-        bytesMaze[7] = bCols[3];
+        convert4(bytesMaze, cols, index);
+        index+=4;
 
-        //convert the row of start position from int to byte
-        byte[] startRow = fromIntToByte(startPosition.getRowIndex());
-        bytesMaze[8] = startRow[0];
-        bytesMaze[9] = startRow[1];
-        bytesMaze[10] = startRow[2];
-        bytesMaze[11] = startRow[3];
+        convert4(bytesMaze, startPosition.getRowIndex(), index);
+        index+=4;
 
-        //convert the col of start position from int to byte
-        byte[] startCol = fromIntToByte(startPosition.getColumnIndex());
-        bytesMaze[12] = startCol[0];
-        bytesMaze[13] = startCol[1];
-        bytesMaze[14] = startCol[2];
-        bytesMaze[15] = startCol[3];
+        convert4(bytesMaze, startPosition.getColumnIndex(), index);
+        index+=4;
 
-        //convert the row of goal position from int to byte
-        byte[] goalRow = fromIntToByte(goalPosition.getRowIndex());
-        bytesMaze[16] = goalRow [0];
-        bytesMaze[17] = goalRow [1];
-        bytesMaze[18] = goalRow [2];
-        bytesMaze[19] = goalRow [3];
+        convert4(bytesMaze, goalPosition.getRowIndex(), index);
+        index+=4;
 
-        //convert the col of goal position from int to byte
-        byte[] goalCol = fromIntToByte(goalPosition.getColumnIndex());
-        bytesMaze[20] = goalCol[0];
-        bytesMaze[21] = goalCol[1];
-        bytesMaze[22] = goalCol[2];
-        bytesMaze[23] = goalCol[3];
+        convert4(bytesMaze, goalPosition.getColumnIndex(), index);
+        index+=4;
 
         //convert all the maze to bytes
-        int index = 24;
+        int startMaze = 24;
         for (int i=0; i<rows; i++)
         {
             for (int j=0; j<cols; j++)
             {
-                bytesMaze[index] = (byte) maze[i][j];
+                bytesMaze[startMaze] = (byte) maze[i][j];
                 index++;
             }
         }
         return bytesMaze;
+    }
+
+    private void convert4(byte[] bytesMaze,int numToConvert, int startIndex)
+    {
+        byte[] convertedNum = fromIntToByte(numToConvert);
+        System.arraycopy(convertedNum, 0, bytesMaze, startIndex,4);
     }
 
     private byte[] fromIntToByte(int num)

@@ -1,13 +1,10 @@
 package IO;
 
-
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Base64;
+import java.util.Collections;
 
 public class MyCompressorOutputStream extends OutputStream {
 
@@ -44,37 +41,25 @@ public class MyCompressorOutputStream extends OutputStream {
                 size-=batchSize;
             }
         }
-
-        //test
-
-        for(int j=0; j<compressed.length; j++)
-            System.out.println(compressed[j]);
-        //
-
-
-
+        System.out.println(compressed.length);
         out.write(compressed);
-    }
-
-
-    private int fromByteToInt(byte[] bm)
-    {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bm);
-        return byteBuffer.getInt();
     }
 
     private byte[] convertBatch(byte[] bytes, int startBatch, int batchSize, byte[] compressed)
     {
-        //converts the 32 bytes to binary string and then to decimal int
-        byte[] bBinary = Arrays.copyOfRange(bytes, startBatch, startBatch+batchSize);
+        //converts the batch of bytes to a binary string
+        byte[] sliceBatch = Arrays.copyOfRange(bytes, startBatch, startBatch+batchSize);
+        String bBinary  = Arrays.toString(sliceBatch);
+        String sBinary = bBinary.replaceAll("[^0-9.]", "");
 
-        String sBinary  = Arrays.toString(bBinary);
+        if(batchSize<32)
+        {
+            int additionSize = 32-batchSize;
+            sBinary += String.join("", Collections.nCopies(additionSize,"0"));
+        }
 
-        String digits = sBinary.replaceAll("[^0-9.]", "");
-
-
-        //String sBinary = new String(bBinary);
-        Integer decimal = Integer.parseInt(digits,2);
+        //converts the 32 binary string to a decimal int
+        int decimal = (int)Long.parseLong(sBinary,2);
 
         //converts the decimal int to 4 bytes
         ByteBuffer bytes4 = ByteBuffer.allocate(4);
@@ -84,8 +69,6 @@ public class MyCompressorOutputStream extends OutputStream {
         byte[] res = new byte[compressed.length + 4];
         System.arraycopy(compressed, 0, res, 0, compressed.length);
         System.arraycopy(bytes4.array(), 0, res, compressed.length, 4);
-
         return res;
     }
-
 }
