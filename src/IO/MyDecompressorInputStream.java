@@ -35,40 +35,48 @@ public class MyDecompressorInputStream extends InputStream {
         byte[] temp = new byte[4];
         int resInt;
         String resStr;
+        int dif = b.length-24;
+        int index = 0;
         for (int i=24; i<comp.length; i=i+4)
         {
+            //byte --> int
             temp[0] = comp[i];
             temp[1] = comp[i+1];
             temp[2] = comp[i+2];
             temp[3] = comp[i+3];
-            resInt = fromByteToInt(temp); //byte --> int
-            resStr = fromDecimalToBinary(resInt); //int --> binary (string)
+            ByteBuffer byteBuffer = ByteBuffer.wrap(temp);
+            resInt = byteBuffer.getInt();
+            //int --> binary (string)
+            resStr = Integer.toBinaryString(resInt);
+            //checks the length of the string
+            if (dif >=32 ) {
+                dif = dif - 32;
+                if (resStr.length()<32)
+                    resStr = addZero (resStr, 32-resStr.length());
+            }
+            else
+            {
+                if (resStr.length()<dif)
+                    resStr = addZero (resStr, dif-resStr.length());
+            }
+            //more converts
             for (int j=0; j<resStr.length(); j++)
             {
                 String tempStr = ""+resStr.charAt(j); //each char --> string
                 int digit = Integer.parseInt(tempStr); //string (with one char) --> int
-                b[j+24] = (byte) digit; //int --> byte
+                b[index+24] = (byte) digit; //int --> byte
+                index++;
             }
         }
         return 0;
     }
 
-    private int fromByteToInt(byte[] bm)
+    private String addZero (String str, int num)
     {
-        ByteBuffer byteBuffer = ByteBuffer.wrap(bm);
-        return byteBuffer.getInt();
-    }
-
-    private String fromDecimalToBinary(int num)
-    {
-        String str = "";
-        //convert to binary
-        while (num > 0)
-        {
-            int digit = num % 2;
-            num = num / 2;
-            str = digit + str;
-        }
+        String zero="";
+        for (int i=0; i<num; i++)
+            zero +="0";
+        str = zero + str;
         return str;
     }
 }
