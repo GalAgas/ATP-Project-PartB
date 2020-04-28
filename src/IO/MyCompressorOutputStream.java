@@ -41,7 +41,7 @@ public class MyCompressorOutputStream extends OutputStream {
                 size-=batchSize;
             }
         }
-        System.out.println(compressed.length);
+        //System.out.println(compressed.length);
         out.write(compressed);
     }
 
