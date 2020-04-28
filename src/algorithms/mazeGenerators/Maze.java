@@ -124,7 +124,7 @@ public class Maze
         index+=4;
 
         convert4(bytesMaze, goalPosition.getColumnIndex(), index);
-        index+=4;
+        //index+=4;
 
         //convert all the maze to bytes
         int startMaze = 24;
@@ -133,7 +133,7 @@ public class Maze
             for (int j=0; j<cols; j++)
             {
                 bytesMaze[startMaze] = (byte) maze[i][j];
-                index++;
+                startMaze++;
             }
         }
         return bytesMaze;
