@@ -25,17 +25,27 @@ public class MyDecompressorInputStream extends InputStream {
         in.read(comp);
         in.close();
 
-        //copy the first 24 cells
+        byte[] row = new byte[4];
+        byte[] col = new byte[4];
+
+        //copy the first 24 cells to b
         for (int i=0; i<24; i++)
         {
             b[i] = comp[i];
+            if (i>=0 && i<=3)
+                row[i] = comp[i]; //number of rows in byte
+            if (i>=4 && i<=7)
+                col[i] = comp[i]; ////number of cols in byte
         }
+
+        int rows = fromByteToInt(row); //number of rows
+        int cols = fromByteToInt(col); //number of cols
 
         //4 cells represents byte --> int --> binary
         byte[] temp = new byte[4];
         int resInt;
         String resStr;
-        for (int i=24; i<comp.length; i=i+4)
+        for (int i=24; i<((rows*cols)+24); i=i+4)
         {
             temp[0] = comp[i];
             temp[1] = comp[i+1];
