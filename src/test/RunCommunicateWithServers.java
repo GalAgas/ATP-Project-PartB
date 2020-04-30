@@ -96,31 +96,31 @@ public class RunCommunicateWithServers {
             e.printStackTrace();
         }
     }
-//    private static void CommunicateWithServer_StringReverser() {
-//        try {
-//            Client client = new Client(InetAddress.getLocalHost(), 5402, new IClientStrategy() {
-//                @Override
-//                public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
-//                    try {
-//                        BufferedReader fromServer = new BufferedReader(new InputStreamReader(inFromServer));
-//                        PrintWriter toServer = new PrintWriter(outToServer);
-//                        String message = "Client Message";
-//                        String serverResponse;
-//                        toServer.write(message + "\n");
-//                        toServer.flush();
-//                        serverResponse = fromServer.readLine();
-//                        System.out.println(String.format("Server response: %s", serverResponse));
-//                        toServer.flush();
-//                        fromServer.close();
-//                        toServer.close();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//            client.communicateWithServer();
-//        } catch (UnknownHostException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    private static void CommunicateWithServer_StringReverser() {
+        try {
+            Client client = new Client(InetAddress.getLocalHost(), 5402, new IClientStrategy() {
+                @Override
+                public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
+                    try {
+                        BufferedReader fromServer = new BufferedReader(new InputStreamReader(inFromServer));
+                        PrintWriter toServer = new PrintWriter(outToServer);
+                        String message = "Client Message";
+                        String serverResponse;
+                        toServer.write(message + "\n");
+                        toServer.flush();
+                        serverResponse = fromServer.readLine();
+                        System.out.println(String.format("Server response: %s", serverResponse));
+                        toServer.flush();
+                        fromServer.close();
+                        toServer.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            client.communicateWithServer();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
 }
