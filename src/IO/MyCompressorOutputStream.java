@@ -54,7 +54,6 @@ public class MyCompressorOutputStream extends OutputStream {
         if(batchSize<32)
         {
             int additionSize = 32-batchSize;
-//            sBinary += String.join("", Collections.nCopies(additionSize,"0"));
             sBinary = String.join("", Collections.nCopies(additionSize,"0")) + sBinary;
         }
 

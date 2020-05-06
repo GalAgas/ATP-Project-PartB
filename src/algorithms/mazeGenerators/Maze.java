@@ -124,7 +124,6 @@ public class Maze
         index+=4;
 
         convert4(bytesMaze, goalPosition.getColumnIndex(), index);
-        //index+=4;
 
         //convert all the maze to bytes
         int startMaze = 24;

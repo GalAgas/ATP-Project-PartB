@@ -35,14 +35,21 @@ public class Server {
                 try {
                     Socket clientSocket = serverSocket.accept();
 
-                    InputStream inFromClient = clientSocket.getInputStream();
-                    OutputStream outToClient = clientSocket.getOutputStream();
+                    //new!!
+                    new Thread(() -> {
+                        clientHandle(clientSocket);
+                    }).start();
 
-                    this.clientHandler.serverStrategy(inFromClient, outToClient);
+                    //moved to the function clientHandle below
 
-                    inFromClient.close();
-                    outToClient.close();
-                    clientSocket.close();
+//                    InputStream inFromClient = clientSocket.getInputStream();
+//                    OutputStream outToClient = clientSocket.getOutputStream();
+//
+//                    this.clientHandler.serverStrategy(inFromClient, outToClient);
+//
+//                    inFromClient.close();
+//                    outToClient.close();
+//                    clientSocket.close();
                 }
                 catch (IOException e) {
                     System.out.println("Where are the clients??");
@@ -53,6 +60,25 @@ public class Server {
         }
     }
 
+    /**
+     * This function receives client socket and handles it
+     * @param clientSocket - The client socket
+     */
+    private void clientHandle(Socket clientSocket) {
+        try {
+            InputStream inFromClient = clientSocket.getInputStream();
+            OutputStream outToClient = clientSocket.getOutputStream();
+            this.clientHandler.serverStrategy(inFromClient, outToClient);
+
+            inFromClient.close();
+            outToClient.close();
+            clientSocket.close();
+        }
+
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void stop()
     {
         this.stop = true;
