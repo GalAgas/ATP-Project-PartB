@@ -1,6 +1,7 @@
 package IO;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -41,7 +42,13 @@ public class MyCompressorOutputStream extends OutputStream {
                 size-=batchSize;
             }
         }
-        out.write(compressed);
+
+        if (out instanceof ObjectOutputStream)
+            ((ObjectOutputStream) out).writeObject(compressed);
+        else
+            out.write(compressed);
+        out.flush();
+        out.close();
     }
 
     private byte[] convertBatch(byte[] bytes, int startBatch, int batchSize, byte[] compressed)

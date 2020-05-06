@@ -35,24 +35,13 @@ public class Server {
                 try {
                     Socket clientSocket = serverSocket.accept();
 
-                    //new!!
                     new Thread(() -> {
                         clientHandle(clientSocket);
                     }).start();
 
-                    //moved to the function clientHandle below
-
-//                    InputStream inFromClient = clientSocket.getInputStream();
-//                    OutputStream outToClient = clientSocket.getOutputStream();
-//
-//                    this.clientHandler.serverStrategy(inFromClient, outToClient);
-//
-//                    inFromClient.close();
-//                    outToClient.close();
-//                    clientSocket.close();
                 }
                 catch (IOException e) {
-                    System.out.println("Where are the clients??");
+                    //System.out.println("Where are the clients??");
                 }
             }
         } catch (IOException e) {
