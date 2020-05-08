@@ -5,17 +5,21 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 
 public class Server {
-    private int port; //The port
-    private int ms;
-    private IServerStrategy clientHandler; //The strategy for handling clients
+    private int port; //The port number
+    private int listeningInterval; //The elapsed time until socket timeout
+    private IServerStrategy serverStrategy; //The strategy for handling clients
     private volatile boolean stop;
 
-    public Server(int port, int ms, IServerStrategy clientHandler) {
+    public Server(int port, int listeningInterval, IServerStrategy serverStrategy) {
         this.port = port;
-        this.ms = ms;
-        this.clientHandler = clientHandler;
+        this.listeningInterval = listeningInterval;
+        this.serverStrategy = serverStrategy;
         this.stop = false;
     }
 
@@ -28,22 +32,26 @@ public class Server {
     public void runOurServer() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
-            serverSocket.setSoTimeout(ms);
-
+            serverSocket.setSoTimeout(listeningInterval);
+            ExecutorService executor = Executors.newFixedThreadPool(2); //????????? not sure because of the config.properties file
             while (!stop)
             {
                 try {
                     Socket clientSocket = serverSocket.accept();
 
+                    executor.execute(() -> {
                     new Thread(() -> {
                         clientHandle(clientSocket);
                     }).start();
+                    });
 
                 }
-                catch (IOException e) {
+                catch (IOException  e) {
                     //System.out.println("Where are the clients??");
                 }
             }
+            executor.shutdown();
+            serverSocket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -57,7 +65,7 @@ public class Server {
         try {
             InputStream inFromClient = clientSocket.getInputStream();
             OutputStream outToClient = clientSocket.getOutputStream();
-            this.clientHandler.serverStrategy(inFromClient, outToClient);
+            this.serverStrategy.serverStrategy(inFromClient, outToClient);
 
             inFromClient.close();
             outToClient.close();
