@@ -25,10 +25,10 @@ public class RunCommunicateWithServers {
         //Server stringReverserServer = new Server(5402, 1000, new ServerStrategyStringReverser());
         //Starting servers
         solveSearchProblemServer.start();
-        mazeGeneratingServer.start();
+        //mazeGeneratingServer.start();
         //stringReverserServer.start();
         //Communicating with servers
-        CommunicateWithServer_MazeGenerating();
+        //CommunicateWithServer_MazeGenerating();
         CommunicateWithServer_SolveSearchProblem();
         //CommunicateWithServer_StringReverser();
         //Stopping all servers
@@ -73,12 +73,25 @@ public class RunCommunicateWithServers {
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
-                        MyMazeGenerator mg = new MyMazeGenerator();
-                        Maze maze = mg.generate(50, 50);
-                        maze.print();
-                        toServer.writeObject(maze); //send maze to server
+//                        MyMazeGenerator mg = new MyMazeGenerator();
+//                        Maze maze = mg.generate(10, 15);
+//                        maze.print();
+//                        toServer.writeObject(maze); //send maze to server
+//                        toServer.flush();
+//                        Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
+
+                        //checks maze that already solved
+                        String tempDirPath = System.getProperty("java.io.tmpdir");//check where to save?
+                        FileInputStream file = new FileInputStream(tempDirPath + "maze1.txt");
+                        ObjectInputStream input = new ObjectInputStream(file);
+                        Maze m = (Maze)input.readObject();
+                        file.close();
+                        toServer.writeObject(m); //send maze to server
                         toServer.flush();
-                        Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
+                        Solution mazeSolution = (Solution) fromServer.readObject();
+                        //
+
+
                         //Print Maze Solution retrieved from the server
                         System.out.println(String.format("Solution steps: %s", mazeSolution));
                         ArrayList<AState> mazeSolutionSteps = mazeSolution.getSolutionPath();

@@ -32,7 +32,7 @@ public class Server {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningInterval);
-            ExecutorService executor = Executors.newFixedThreadPool(2); //????????? not sure because of the config.properties file
+            ExecutorService executor = Executors.newFixedThreadPool(5); //????????? not sure because of the config.properties file
             while (!stop)
             {
                 try {
