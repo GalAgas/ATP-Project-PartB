@@ -23,12 +23,10 @@ public class Server {
     }
 
     public void start(){
-        new Thread(() -> {
-            runOurServer();
-        }).start();
+        new Thread(this::runOurServer).start();
     }
 
-    public void runOurServer() {
+    private void runOurServer() {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningInterval);
@@ -38,11 +36,7 @@ public class Server {
                 try {
                     Socket clientSocket = serverSocket.accept();
 
-                    executor.execute(() -> {
-                    new Thread(() -> {
-                        clientHandle(clientSocket);
-                    }).start();
-                    });
+                    executor.execute(() -> clientHandle(clientSocket));
 
                 }
                 catch (IOException  e) {
