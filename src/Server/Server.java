@@ -14,12 +14,15 @@ public class Server {
     private int listeningInterval; //The elapsed time until socket timeout
     private IServerStrategy serverStrategy; //The strategy for handling clients
     private volatile boolean stop;
+    private ExecutorService executor;
 
     public Server(int port, int listeningInterval, IServerStrategy serverStrategy) {
         this.port = port;
         this.listeningInterval = listeningInterval;
         this.serverStrategy = serverStrategy;
         this.stop = false;
+        this.executor = Executors.newFixedThreadPool(5); //????????? not sure because of the config.properties file
+
     }
 
     public void start(){
@@ -30,14 +33,12 @@ public class Server {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningInterval);
-            ExecutorService executor = Executors.newFixedThreadPool(5); //????????? not sure because of the config.properties file
+//            ExecutorService executor = Executors.newFixedThreadPool(5); //????????? not sure because of the config.properties file
             while (!stop)
             {
                 try {
                     Socket clientSocket = serverSocket.accept();
-
                     executor.execute(() -> clientHandle(clientSocket));
-
                 }
                 catch (IOException  e) {
                     //System.out.println("Where are the clients??");

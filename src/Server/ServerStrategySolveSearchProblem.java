@@ -11,29 +11,32 @@ import algorithms.search.Solution;
 import java.io.*;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ServerStrategySolveSearchProblem implements IServerStrategy {
 
-    private static int clientCounter;
+    private static AtomicInteger clientCounter;
     private static ConcurrentHashMap<String, String> solAndMazeDict;
+    private String tempDirPath;
 
     //key-toByteArray=>string
     public ServerStrategySolveSearchProblem() {
-        String tempDirPath = System.getProperty("java.io.tmpdir");
+        tempDirPath = System.getProperty("java.io.tmpdir");
         String dictFileName = "dictFile.txt";
 
         //dict already exists
         if(new File(tempDirPath+dictFileName).exists())
         {
+            System.out.println(tempDirPath);
             solAndMazeDict = (ConcurrentHashMap)readInFromFile(dictFileName);
-            clientCounter = solAndMazeDict.size();
+            clientCounter = new AtomicInteger(solAndMazeDict.size());
         }
         //first instance
         else
         {
             solAndMazeDict = new ConcurrentHashMap<>();
             writeOutToFile(dictFileName, solAndMazeDict);
-            clientCounter = 0;
+            clientCounter = new AtomicInteger(0);
         }
     }
 
@@ -50,7 +53,6 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
             String newMazeKey = Arrays.toString(byteMaze);
             Solution sol;
             String solFileName;
-            String tempDirPath = System.getProperty("java.io.tmpdir");
 
             //maze already solved
             if (solAndMazeDict.containsKey(newMazeKey)) {
@@ -59,11 +61,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
             }
             else {
                 //saves new maze in temp dir
-                String mazeFileName;
-                synchronized (this)//check? lock only here??
-                {
-                    mazeFileName = "maze" + clientCounter + ".txt";
-                }
+                String mazeFileName = "maze" + clientCounter.incrementAndGet() + ".txt";
                 writeOutToFile(mazeFileName, mazeFromClient);
 
                 //solves the new maze
@@ -72,11 +70,7 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
                 sol = searcher.solve(searchableMaze);
 
                 //saves the new solution in temp dir
-                synchronized (this)//check if needed
-                {
-                    solFileName = "sol" + clientCounter + ".txt";
-                    clientCounter++;
-                }
+                solFileName = "sol" + clientCounter.get() + ".txt";
                 writeOutToFile(solFileName, sol);
 
                 //updates and saves dictionary
@@ -94,7 +88,6 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
 
     //try&catch or exception?
     private void writeOutToFile(String fileName, Object out) {
-        String tempDirPath = System.getProperty("java.io.tmpdir");//check where to save?
         try {
             FileOutputStream file = new FileOutputStream(tempDirPath + fileName);
             ObjectOutputStream output = new ObjectOutputStream(file);
@@ -106,7 +99,6 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
     }
 
     private Object readInFromFile(String fileName) {
-        String tempDirPath = System.getProperty("java.io.tmpdir");//check where to save?
         Object inObject = null;
         try {
             FileInputStream file = new FileInputStream(tempDirPath + fileName);
