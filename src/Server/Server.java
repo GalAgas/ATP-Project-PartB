@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -21,8 +22,7 @@ public class Server {
         this.listeningInterval = listeningInterval;
         this.serverStrategy = serverStrategy;
         this.stop = false;
-        this.executor = Executors.newFixedThreadPool(5); //????????? not sure because of the config.properties file
-
+        this.executor = Executors.newFixedThreadPool(2); //????????? not sure because of the config.properties file
     }
 
     public void start(){
@@ -33,7 +33,6 @@ public class Server {
         try {
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningInterval);
-//            ExecutorService executor = Executors.newFixedThreadPool(5); //????????? not sure because of the config.properties file
             while (!stop)
             {
                 try {
