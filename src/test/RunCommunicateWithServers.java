@@ -73,22 +73,22 @@ public class RunCommunicateWithServers {
                         ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
                         ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
                         toServer.flush();
-//                        MyMazeGenerator mg = new MyMazeGenerator();
-//                        Maze maze = mg.generate(10, 15);
-//                        maze.print();
-//                        toServer.writeObject(maze); //send maze to server
-//                        toServer.flush();
-//                        Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
+                        MyMazeGenerator mg = new MyMazeGenerator();
+                        Maze maze = mg.generate(50, 50);
+                        maze.print();
+                        toServer.writeObject(maze); //send maze to server
+                        toServer.flush();
+                        Solution mazeSolution = (Solution) fromServer.readObject(); //read generated maze (compressed with MyCompressor) from server
 
                         //checks maze that already solved
-                        String tempDirPath = System.getProperty("java.io.tmpdir");//check where to save?
-                        FileInputStream file = new FileInputStream(tempDirPath + "maze1.txt");
-                        ObjectInputStream input = new ObjectInputStream(file);
-                        Maze m = (Maze)input.readObject();
-                        file.close();
-                        toServer.writeObject(m); //send maze to server
-                        toServer.flush();
-                        Solution mazeSolution = (Solution) fromServer.readObject();
+//                        String tempDirPath = System.getProperty("java.io.tmpdir");//check where to save?
+//                        FileInputStream file = new FileInputStream(tempDirPath + "maze1.txt");
+//                        ObjectInputStream input = new ObjectInputStream(file);
+//                        Maze m = (Maze)input.readObject();
+//                        file.close();
+//                        toServer.writeObject(m); //send maze to server
+//                        toServer.flush();
+//                        Solution mazeSolution = (Solution) fromServer.readObject();
                         //
 
 

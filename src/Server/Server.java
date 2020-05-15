@@ -22,7 +22,7 @@ public class Server {
         this.listeningInterval = listeningInterval;
         this.serverStrategy = serverStrategy;
         this.stop = false;
-        this.executor = Executors.newFixedThreadPool(2); //????????? not sure because of the config.properties file
+        this.executor = Executors.newFixedThreadPool(Integer.parseInt(Configurations.getProperty("threadPoolSize")));
     }
 
     public void start(){
@@ -40,11 +40,11 @@ public class Server {
                     executor.execute(() -> clientHandle(clientSocket));
                 }
                 catch (IOException  e) {
-                    //System.out.println("Where are the clients??");
                 }
             }
             executor.shutdown();
             serverSocket.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

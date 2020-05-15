@@ -14,4 +14,5 @@ public class Solution implements Serializable
         return solPath;
     }
 
+    //public String toString() { return ("Solution steps: "); }
 }

@@ -1,11 +1,11 @@
 package Server;
 
 import IO.MyCompressorOutputStream;
+import algorithms.mazeGenerators.EmptyMazeGenerator;
 import algorithms.mazeGenerators.Maze;
-import algorithms.search.BreadthFirstSearch;
-import algorithms.search.ISearchingAlgorithm;
-import algorithms.search.SearchableMaze;
-import algorithms.search.Solution;
+import algorithms.mazeGenerators.MyMazeGenerator;
+import algorithms.mazeGenerators.SimpleMazeGenerator;
+import algorithms.search.*;
 
 
 import java.io.*;
@@ -66,7 +66,16 @@ public class ServerStrategySolveSearchProblem implements IServerStrategy {
 
                 //solves the new maze
                 SearchableMaze searchableMaze = new SearchableMaze(mazeFromClient);
-                ISearchingAlgorithm searcher = new BreadthFirstSearch();//config.properties file
+                ISearchingAlgorithm searcher; //think if synchronized
+                if (Configurations.getProperty("problemSolver").equals("BreadthFirstSearch"))
+                    searcher = new BreadthFirstSearch();
+                else if (Configurations.getProperty("problemSolver").equals("BestFirstSearch"))
+                    searcher = new BestFirstSearch();
+                else if (Configurations.getProperty("problemSolver").equals("DepthFirstSearch"))
+                    searcher = new DepthFirstSearch();
+                else
+                    searcher = new BreadthFirstSearch();
+
                 sol = searcher.solve(searchableMaze);
 
                 //saves the new solution in temp dir
