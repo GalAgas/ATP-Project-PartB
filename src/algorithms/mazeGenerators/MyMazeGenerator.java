@@ -21,18 +21,6 @@ public class MyMazeGenerator extends AMazeGenerator
                 for (int j=0; j<cols; j++)
                     myMaze.getMaze()[i][j] = 0;
             }
-//            int rand;
-//            for (int i=0; i<rows; i++)
-//            {
-//                for (int j=0; j<cols; j++)
-//                {
-//                    rand = ThreadLocalRandom.current().nextInt(0, 11);
-//                    if (rand < 10 )
-//                        myMaze.getMaze()[i][j] = 0;
-//                    else
-//                        myMaze.getMaze()[i][j] = 1;
-//                }
-//            }
         }
         else
         {

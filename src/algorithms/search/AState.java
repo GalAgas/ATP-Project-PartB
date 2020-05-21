@@ -17,7 +17,6 @@ public abstract class AState implements Comparable<AState>, Serializable
         isVisited = false;
     }
 
-
     public void setCost(int cost)
     {
         this.cost = cost;
@@ -42,21 +41,19 @@ public abstract class AState implements Comparable<AState>, Serializable
         return parent;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public boolean isVisited() { return isVisited; }
 
     public void setVisited(boolean visited) { isVisited = visited; }
 
     public AState[] getNeigbours() { return neighbours; }
 
+    public void setNeighboursNull() { neighbours = null; }
+
     public String toString() { return name; }
 
     public int compareTo(AState other)
     {
-        if (other == null) //check?
+        if (other == null)
             return 0;
         if (other.getCost() < cost)
             return 1;
@@ -64,7 +61,6 @@ public abstract class AState implements Comparable<AState>, Serializable
             return 0;
         return -1;
     }
-
 }
 
 
