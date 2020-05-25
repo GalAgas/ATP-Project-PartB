@@ -1,9 +1,7 @@
 package algorithms.search;
 
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -13,50 +11,8 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
 
     public BreadthFirstSearch() {
         super.name = "Breadth First Search";
-        Q = new LinkedList<AState>();
+        Q = new LinkedList<>();
     }
-
-//    @Override
-//    public Solution solve(ISearchable s)
-//    {
-//        if (s == null)
-//            return null;
-//        if (s.getStart() == null || s.getGoal() == null)
-//            return null;
-//
-//        ArrayList<AState> allEvaluatedStates = new ArrayList<AState>();
-//        Q.add(s.getStart());
-//        allEvaluatedStates.add(s.getStart());
-//        s.getStart().setVisited(true);
-//
-//        Solution sol = new Solution(new ArrayList<>());
-//
-//        while (!Q.isEmpty()) {
-//            AState currState = Q.remove();
-//
-//            //found goal
-//            if (currState == s.getGoal())
-//            {
-//                //building the solution's path
-//                sol = createSolPath (currState);
-//                break;
-//            }
-//
-//            //get all currState's neigbours
-//            ArrayList<AState> allPossNext = s.getAllPossibleStates(currState);
-//            for (AState nextState : allPossNext) {
-//                if (!nextState.isVisited()) {
-//                    nextState.setVisited(true);
-//                    visitedNodes++;
-//                    nextState.setParent(currState);
-//                    Q.add(nextState);
-//                    allEvaluatedStates.add(nextState);
-//                }
-//            }
-//        }
-//        setAllVisitedToFalse(allEvaluatedStates);
-//        return sol;
-//    }
 
     @Override
     public Solution solve(ISearchable s)
@@ -66,12 +22,12 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
         if (s.getStart() == null || s.getGoal() == null)
             return null;
 
-        ArrayList<AState> allEvaluatedStates = new ArrayList<AState>();
+        ArrayList<AState> allEvaluatedStates = new ArrayList<>();
         Q.add(s.getStart());
         allEvaluatedStates.add(s.getStart());
         s.getStart().setVisited(true);
 
-        Solution sol = null;
+        Solution sol = new Solution(new ArrayList<>());
 
         while (!Q.isEmpty()) {
             AState currState = Q.remove();
@@ -80,7 +36,7 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
             if (currState == s.getGoal())
             {
                 //building the solution's path
-                sol = new Solution(currState);
+                sol = createSolPath (currState);
                 break;
             }
 
@@ -99,4 +55,46 @@ public class BreadthFirstSearch extends ASearchingAlgorithm {
         setAllVisitedToFalse(allEvaluatedStates);
         return sol;
     }
+
+//    @Override
+//    public Solution solve(ISearchable s)
+//    {
+//        if (s == null)
+//            return null;
+//        if (s.getStart() == null || s.getGoal() == null)
+//            return null;
+//
+//        ArrayList<AState> allEvaluatedStates = new ArrayList<AState>();
+//        Q.add(s.getStart());
+//        allEvaluatedStates.add(s.getStart());
+//        s.getStart().setVisited(true);
+//
+//        Solution sol = null;
+//
+//        while (!Q.isEmpty()) {
+//            AState currState = Q.remove();
+//
+//            //found goal
+//            if (currState == s.getGoal())
+//            {
+//                //building the solution's path
+//                sol = new Solution(currState);
+//                break;
+//            }
+//
+//            //get all currState's neigbours
+//            ArrayList<AState> allPossNext = s.getAllPossibleStates(currState);
+//            for (AState nextState : allPossNext) {
+//                if (!nextState.isVisited()) {
+//                    nextState.setVisited(true);
+//                    visitedNodes++;
+//                    nextState.setParent(currState);
+//                    Q.add(nextState);
+//                    allEvaluatedStates.add(nextState);
+//                }
+//            }
+//        }
+//        setAllVisitedToFalse(allEvaluatedStates);
+//        return sol;
+//    }
 }
