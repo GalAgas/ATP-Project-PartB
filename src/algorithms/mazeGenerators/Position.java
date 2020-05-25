@@ -6,7 +6,6 @@ public class Position implements Serializable
 {
     private int row;
     private int col;
-    private String posName;
 
     public Position(int row, int col)
     {
@@ -19,11 +18,6 @@ public class Position implements Serializable
     public int getColumnIndex()
     {
         return col;
-    }
-
-    public String getPosNameName()
-    {
-        return Integer.toString(row)+Integer.toString(col);
     }
 
     public String toString() { return ("{" + row + "," + col +"}"); }

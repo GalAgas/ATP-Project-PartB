@@ -1,6 +1,7 @@
 package algorithms.search;
 
 import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.Position;
 
 import java.util.*;
 
@@ -11,16 +12,12 @@ public class SearchableMaze implements ISearchable
     private AState goal;
     private HashMap<String, AState> allStates;
 
-
     public SearchableMaze(Maze maze)
     {
         this.maze = maze;
-
         allStates = new HashMap<>();
-
         //creates all states with zero
         buildAllStates();
-
         //initializes 4 neighbours for each state
         setNeighbours();
 
@@ -34,9 +31,7 @@ public class SearchableMaze implements ISearchable
 
         //initializes all costs
         setAllCosts();
-
     }
-
 
     public AState up (AState state)
     {
@@ -77,7 +72,6 @@ public class SearchableMaze implements ISearchable
             down = searchStateByName(row+1, col);
         return down;
     }
-
 
     private void buildAllStates()
     {
@@ -258,5 +252,4 @@ public class SearchableMaze implements ISearchable
         }
         return minState;
     }
-
 }

@@ -12,6 +12,43 @@ public class DepthFirstSearch extends ASearchingAlgorithm
         stack = new Stack<AState>();
     }
 
+//    @Override
+//    public Solution solve(ISearchable s) {
+//        if (s == null) //input check
+//            return null;
+//        AState start = s.getStart();
+//        AState goal = s.getGoal();
+//        if (start == null || goal == null) //input check
+//            return null;
+//        Solution sol = new Solution(new ArrayList<>());
+//        ArrayList<AState> allEvaluatedStates = new ArrayList<AState>();
+//        //there is more than one state in the path
+//        start.setVisited(true);
+//        stack.push(start);
+//        allEvaluatedStates.add(start);
+//        while (!stack.isEmpty()) {
+//            AState curr = stack.pop();
+//            if (curr.getName().equals(goal.getName())) //reached to goal state
+//            {
+//                sol =  createSolPath(curr);
+//                break;
+//            }
+//            ArrayList<AState> allPossNext = s.getAllPossibleStates(curr); //get all curr possible moves
+//            //push unvisited states to the stack
+//            for (AState nextState : allPossNext) {
+//                if (!nextState.isVisited()) {
+//                    nextState.setParent(curr);
+//                    nextState.setVisited(true);
+//                    super.visitedNodes++;
+//                    stack.push(nextState);
+//                    allEvaluatedStates.add(nextState);
+//                }
+//            }
+//        }
+//        setAllVisitedToFalse(allEvaluatedStates);
+//        return sol;
+//    }
+
     @Override
     public Solution solve(ISearchable s) {
         if (s == null) //input check
@@ -20,7 +57,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm
         AState goal = s.getGoal();
         if (start == null || goal == null) //input check
             return null;
-        Solution sol = new Solution(new ArrayList<>());
+        Solution sol = null;
         ArrayList<AState> allEvaluatedStates = new ArrayList<AState>();
         //there is more than one state in the path
         start.setVisited(true);
@@ -30,7 +67,7 @@ public class DepthFirstSearch extends ASearchingAlgorithm
             AState curr = stack.pop();
             if (curr.getName().equals(goal.getName())) //reached to goal state
             {
-                sol =  createSolPath(curr);
+                sol =  new Solution(curr);
                 break;
             }
             ArrayList<AState> allPossNext = s.getAllPossibleStates(curr); //get all curr possible moves
