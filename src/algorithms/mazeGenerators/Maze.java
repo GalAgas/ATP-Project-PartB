@@ -1,6 +1,9 @@
 package algorithms.mazeGenerators;
 
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 
@@ -139,6 +142,7 @@ public class Maze implements Serializable
         return bytesMaze;
     }
 
+
     private void convert4(byte[] bytesMaze,int numToConvert, int startIndex)
     {
         byte[] convertedNum = fromIntToByte(numToConvert);
@@ -157,4 +161,49 @@ public class Maze implements Serializable
         ByteBuffer byteBuffer = ByteBuffer.wrap(bm);
         return byteBuffer.getInt();
     }
+
+/////
+//    private void writeObject(ObjectOutputStream outputStream) throws IOException
+//    {
+//        outputStream.writeObject(toByteArray());
+//    }
+//
+//    private void readObject(ObjectInputStream inputStream) throws IOException, ClassNotFoundException
+//    {
+//        byte[] bytesMaze = (byte[]) inputStream.readObject();
+//        initMazeFromByte(bytesMaze);
+//    }
+//
+//    private void initMazeFromByte(byte[] bytesMaze)
+//    {
+//        byte [] bm = new byte[4];
+//        int [] res = new int[6];
+//        int counter = 0;
+//        int resIndex = 0;
+//        for (int i=0; i<24; i++)
+//        {
+//            bm[counter] = bytesMaze[i];
+//            counter++;
+//            if (counter == 4)
+//            {
+//                res[resIndex] = fromByteToInt(bm);
+//                resIndex++;
+//                counter = 0;
+//            }
+//        }
+//        rows = res[0];
+//        cols = res[1];
+//        setStartPosition(res[2], res[3]);
+//        setGoalPosition(res[4], res[5]);
+//        maze = new int[rows][cols];
+//        int index = 24;
+//        for (int i=0; i<rows; i++)
+//        {
+//            for (int j=0; j<cols; j++)
+//            {
+//                maze[i][j] = bytesMaze[index];
+//                index++;
+//            }
+//        }
+//    }
 }

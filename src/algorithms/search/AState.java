@@ -65,6 +65,11 @@ public abstract class AState implements Comparable<AState>, Serializable
         return -1;
     }
 
+    public void setNeighboursToNull ()
+    {
+        neighbours = null;
+    }
+
 }
 
 

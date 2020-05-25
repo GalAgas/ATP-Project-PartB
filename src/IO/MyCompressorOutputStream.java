@@ -51,6 +51,7 @@ public class MyCompressorOutputStream extends OutputStream {
         out.close();
     }
 
+
     private byte[] convertBatch(byte[] bytes, int startBatch, int batchSize, byte[] compressed)
     {
         //converts the batch of bytes to a binary string

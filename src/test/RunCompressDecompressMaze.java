@@ -25,6 +25,7 @@ public class RunCompressDecompressMaze {
         catch (IOException e) {
             e.printStackTrace();
         }
+
         byte savedMazeBytes[] = new byte[0];
         try {
             //read maze from file

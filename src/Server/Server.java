@@ -22,6 +22,8 @@ public class Server {
         this.listeningInterval = listeningInterval;
         this.serverStrategy = serverStrategy;
         this.stop = false;
+        //int size = Integer.parseInt(Configurations.getProperty("threadPoolSize"));
+        executor = Executors.newFixedThreadPool(3);
     }
 
     public void start(){
@@ -30,8 +32,6 @@ public class Server {
 
     private void runOurServer() {
         try {
-            int size = Integer.parseInt(Configurations.getProperty("threadPoolSize"));
-            executor = Executors.newFixedThreadPool(size);
             ServerSocket serverSocket = new ServerSocket(port);
             serverSocket.setSoTimeout(listeningInterval);
             while (!stop)
